@@ -3,11 +3,13 @@
 
 # In[1]:
 
+
 import os
 assert 'ASCDS_INSTALL' in os.environ
 
 
 # In[2]:
+
 
 from sherpa.astro.ui import *
 import sys
@@ -15,6 +17,7 @@ sys.tracebacklimit=999
 
 
 # In[3]:
+
 
 from pychips import *
 from pychips.hlui import *
@@ -27,15 +30,18 @@ def iprint_window(filename):
 
 # In[4]:
 
+
 from sherpa_contrib.utils import *
 
 
 # In[5]:
 
+
 dataspace1d(0.5, 8, 0.25)
 
 
 # In[6]:
+
 
 set_source(xsphabs.gal * powlaw1d.pl)
 gal.nh = 1.3
@@ -47,6 +53,7 @@ iprint_window("sherpa_01.png")
 
 # In[7]:
 
+
 plot_instmap_weights()
 log_scale()
 iprint_window("sherpa_02.png")
@@ -54,16 +61,19 @@ iprint_window("sherpa_02.png")
 
 # In[8]:
 
+
 save_instmap_weights("weights.txt",clobber=True)
 
 
 # In[9]:
+
 
 from ciao_contrib.runtool import dmstat
 print(dmstat("weights.txt"))
 
 
 # In[10]:
+
 
 dataspace1d(0.5, 8, 0.5, id=2)
 set_source(2, get_source())
@@ -74,6 +84,7 @@ iprint_window('sherpa_03.png')
 
 
 # In[11]:
+
 
 edges = [0.5, 1, 1.5, 2, 2.25, 2.5, 2.75, 3, 3.5, 4, 6, 8]
 xe = numpy.asarray(edges)
@@ -89,6 +100,7 @@ iprint_window("sherpa_04.png")
 
 # In[12]:
 
+
 from ciao_contrib.runtool import specextract
 specextract.infile="repro/acisf01838_repro_evt2.fits[sky=circle(4072.7497,4245.7704,10.616561)]"
 specextract.outroot="src"
@@ -98,6 +110,7 @@ specextract(clobber=True)
 
 
 # In[13]:
+
 
 plot_instmap_weights(3)
 add_axis(Y_AXIS, 1, 1, 2)
@@ -112,6 +125,7 @@ iprint_window("sherpa_05.png")
 
 # In[14]:
 
+
 clear()
 
 
@@ -119,6 +133,7 @@ clear()
 # ## Compare with chips
 
 # In[15]:
+
 
 from ciao_contrib.runtool import mkinstmap
 mkinstmap.pixelgrid="1:1024:#1024,1:1024:#1024"
@@ -129,6 +144,7 @@ mkinstmap.maskfile="repro/acisf01838_000N003_msk1.fits"
 
 # In[16]:
 
+
 mkinstmap("imap.e1.7.fits", "NONE", "1.7", clobber=True )
 mkinstmap("imap.weights.fits", "weights.txt", "1", clobber=True )
 mkinstmap("imap.weights2.fits", "weights2.txt", "1", clobber=True )
@@ -137,10 +153,12 @@ mkinstmap("imap.weights3.fits", "weights3.txt", "1", clobber=True )
 
 # In[17]:
 
+
 print(dmstat("imap.*.fits", centroid=False, median=True, sigma=False))
 
 
 # In[18]:
+
 
 from ciao_contrib.runtool import dmimgcalc, dmstat
 dmimgcalc("imap.weights.fits,imap.e1.7.fits", out="ratio1.fits", op="imgout=img1/img2", clob=True)
@@ -148,6 +166,7 @@ print(dmstat("ratio1.fits", cen=False, sig=False, med=True))
 
 
 # In[19]:
+
 
 clear()
 add_window(8, 8, 'inches')
@@ -162,11 +181,13 @@ iprint_window("chips_01.png")
 
 # In[20]:
 
+
 from ciao_contrib.runtool import dmimgcalc
 dmimgcalc("imap.weights2.fits,imap.weights.fits", out="ratio2.fits", op="imgout=img1/img2", clob=True)
 
 
 # In[21]:
+
 
 clear()
 add_window(8, 8, 'inches')
@@ -181,11 +202,13 @@ iprint_window("chips_02.png")
 
 # In[22]:
 
+
 from ciao_contrib.runtool import dmimgcalc
 dmimgcalc("imap.weights3.fits,imap.weights.fits", out="ratio3.fits", op="imgout=img1/img2", clob=True)
 
 
 # In[23]:
+
 
 clear()
 add_window(8, 8, 'inches')
@@ -205,6 +228,7 @@ iprint_window("chips_03.png")
 
 # In[24]:
 
+
 from ciao_contrib.runtool import asphist
 asphist.infile="repro/pcadf084244404N003_asol1.fits"
 asphist.evtfile="repro/acisf01838_repro_evt2.fits"
@@ -213,6 +237,7 @@ asphist(clob=True)
 
 
 # In[25]:
+
 
 from ciao_contrib.runtool import mkexpmap
 
@@ -225,11 +250,13 @@ mkexpmap(instmap="imap.weights.fits",outf="emap.weights.fits", clob=True)
 
 # In[26]:
 
+
 from ciao_contrib.runtool import dmimgcalc
 dmimgcalc("emap.weights.fits,emap.e1.7.fits", outf="emap.ratio.fits", op="imgout=img1/img2", clob=True)
 
 
 # In[27]:
+
 
 clear()
 add_window(8, 8, 'inches')
@@ -243,6 +270,7 @@ iprint_window("chips_04.png")
 
 
 # In[28]:
+
 
 from ciao_contrib.utils import *
 from pycrates import read_file, get_piximgvals
@@ -269,6 +297,7 @@ he = simple_hist(ie[ixe], nbins=20)
 
 
 # In[29]:
+
 
 clear()
 add_window(6, 4, 'inches')
@@ -308,10 +337,6 @@ iprint_window("chips_05.png")
 
 # In[30]:
 
+
 clear()
-
-
-# In[ ]:
-
-
 
