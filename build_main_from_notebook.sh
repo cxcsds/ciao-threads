@@ -3,7 +3,7 @@
 
 
 notebook_dir=/data/sdsreg/thread_output/Notebooks/
-dest_dir=/data/sdsreg/current_regtest/.tests/threads/
+dest_dir=/data/sdsreg/current_regtest/threads_tests/threads/
 grp=ciaotest
 
 
