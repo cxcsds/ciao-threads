@@ -1,4 +1,4 @@
-#!/bin/sh 
+#!/bin/sh
 
 
 
@@ -9,13 +9,13 @@ grp=ciaotest
 
 copy_bash_notebook()
 {
-    
+
   nb=$1
-  
+
   to=`basename $nb | sed 's,\.sh$,.MAIN,g'`
-  
+
   cat $nb | \
-    egrep -v '^source /export' | \
+    grep -Ev '^source /export' | \
     sed 's,^display,#display,g' | \
     sed 's,^##REGRESSION_TEST: ,,g' | \
     cat > $dest_dir/$to
@@ -23,7 +23,7 @@ copy_bash_notebook()
   chmod 775 $dest_dir/$to
 
   echo $to
-  
+
 }
 
 
